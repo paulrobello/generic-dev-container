@@ -53,8 +53,8 @@ done
 
 
 echo "Generating public key"
-echo "ssh-keygen -q -t rsa -f ~/.ssh/$key_name -N '' <<<y 2>&1"
-ssh-keygen -q -t rsa -f ~/.ssh/$key_name -N '' <<<y 2>&1
+echo "ssh-keygen -q -t ed25519 -f ~/.ssh/$key_name -N '' <<<y 2>&1"
+ssh-keygen -q -t ed25519 -f ~/.ssh/$key_name -N '' <<<y 2>&1
 ret=$?
 if [ $ret -ne 0 ]; then
   echo "Failed to generate $key_name rsa key with exit code ($ret). Aborting..."
@@ -83,14 +83,14 @@ if [[ "$direction" == "push" ]]; then
   fi
 else
   echo "Pulling $remote_file from $remote_file on $instance_id"
-  echo "scp -i ~/.ssh/$key_name -o \"UserKnownHostsFile=/dev/null\" -o \"StrictHostKeyChecking=no\" -o ProxyCommand=\"aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p\" ssm-user@$direction:$remote_file $local_file"
+  echo "scp -i ~/.ssh/$key_name -o \"IdentitiesOnly=yes\" -o \"UserKnownHostsFile=/dev/null\" -o \"StrictHostKeyChecking=no\" -o ProxyCommand=\"aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p\" ssm-user@$direction:$remote_file $local_file"
   scp -r -i ~/.ssh/$key_name -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand="aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters portNumber=%p" ssm-user@$instance_id:$remote_file $local_file
   ret=$?
   if [ $ret -ne 0 ]; then
 	echo "Failed to scp exit code ($ret)."
   fi
 fi
-rm ~/.ssh/$key_name ~/.ssh/$key_name.pub 2>&1 > /dev/null
+ rm ~/.ssh/$key_name ~/.ssh/$key_name.pub 2>&1 > /dev/null
 
 # immediately quit after ending the session
-#exit $ret
+exit $ret
