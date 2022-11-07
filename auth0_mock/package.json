@@ -5,9 +5,8 @@
   "scripts": {
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
-    "prestart": "npm run build",
-    "start": "yarn install && node .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "yarn install && yarn run build",
+    "start": "node .",
     "cleanup": "rm -rf node_modules keys.json"
   },
   "dependencies": {
@@ -24,6 +23,8 @@
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/jwk-to-pem": "^2.0.1",
     "@types/node": "^18.11.9",
     "@types/node-jose": "^1.1.10",
     "tslint": "^6.1.3",
