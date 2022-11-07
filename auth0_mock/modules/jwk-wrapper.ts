@@ -1,6 +1,6 @@
-import * as jose from "jose"
-import * as jwt from "jsonwebtoken"
-import * as jwkToPem from "jwk-to-pem"
+import jose from "node-jose"
+import jwt from "jsonwebtoken"
+import jwkToPem from "jwk-to-pem"
 import {existsSync, readFileSync, writeFileSync} from "fs"
 // import {JWK, JWS} from 'jose' TODO dont want to import whole thing
 

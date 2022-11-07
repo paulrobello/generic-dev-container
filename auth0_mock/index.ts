@@ -1,11 +1,12 @@
-import * as cors from "cors"
-import * as express from "express";
+import cors from "cors"
+import express from "express";
 import {json, urlencoded} from "body-parser";
 import {port} from "./modules/helpers";
+import {rawReqLogger} from "./modules/middleware";
 import * as apiRoutes from "./routes/api";
 import * as indexRoutes from "./routes/index";
-import {rawReqLogger} from "./modules/middleware";
 import * as authRoutes from "./routes/authentication";
+
 
 express()
   .set('view engine', 'ejs')
