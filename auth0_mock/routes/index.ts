@@ -1,9 +1,9 @@
 import * as express from "express";
 
-const router = express.Router();
+export const routerIndex = express.Router();
 
 // lists all the available routes
-router.get('/', (req, res) => {
+routerIndex.get('/', (req, res) => {
   const routes = {
     '/authorize':
       'GET - renders a login page which makes a POST request to login route - official auth0 service uses this route (most frontend frameworks will use it too)',
@@ -32,4 +32,4 @@ router.get('/', (req, res) => {
 });
 
 // module.exports = router;
-export = router;
+// export = router;

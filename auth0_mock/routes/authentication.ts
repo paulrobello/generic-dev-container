@@ -1,4 +1,4 @@
-import * as express from "express";
+import express from "express";
 import {User} from "../modules/user";
 import {Auth} from "../modules/authentication";
 import {idTokenClaims} from "../token-claims/id";
@@ -6,10 +6,11 @@ import {JwkWrapper} from "../modules/jwk-wrapper";
 import {accessTokenClaims} from "../token-claims/access";
 import {buildUriParams, auth0Url, removeNonceIfEmpty} from "../modules/helpers"
 
-const router = express.Router();
+export const routerAuth = express.Router();
 
 // path renders login page | used in conjunction with auth0 frontend libs | makes POST to login route
-router.get('/authorize', async (req, res) => {
+routerAuth.get('/authorize', async (req, res) => {
+    // TODO need typings on this
     const {redirect_uri, prompt, state, client_id, nonce, audience} = req.query;
     JwkWrapper.setNonce(nonce);
     if (!redirect_uri) {
@@ -64,7 +65,7 @@ router.get('/authorize', async (req, res) => {
 // ======================
 
 // login route | associated with user in user.json file | post made by authorizer route template
-router.post('/login', (req, res) => {
+routerAuth.post('/login', (req, res) => {
     const logMsg = 'username = ' + req.body.username + ' && pw = ' + req.body.pw;
     const redirect = req.query.redirect || '';
     const state = req.query.state;
@@ -92,7 +93,7 @@ router.post('/login', (req, res) => {
 });
 
 // login route | alternative to using /authorizer->POST->/login flow
-router.get('/login', (req, res) => {
+routerAuth.get('/login', (req, res) => {
     const logMsg =
         'username = ' + req.query.username + ' && pw = ' + req.query.pw;
 
@@ -123,14 +124,14 @@ router.get('/login', (req, res) => {
 // logout routes
 // ======================
 
-router.get('/logout', (req, res) => {
+routerAuth.get('/logout', (req, res) => {
     const currentUser = JSON.stringify(Auth.currentUser);
     Auth.logout();
     console.log(`logged out ${currentUser}`);
     res.status(200).send('logged out');
 });
 
-router.get('/v2/logout', (req, res) => {
+routerAuth.get('/v2/logout', (req, res) => {
     const redirect = req.query.returnTo;
     const currentUser = JSON.stringify(Auth.currentUser);
     Auth.logout();
@@ -143,4 +144,4 @@ router.get('/v2/logout', (req, res) => {
 });
 
 // module.exports = router;
-export = router;
+// export = router;
