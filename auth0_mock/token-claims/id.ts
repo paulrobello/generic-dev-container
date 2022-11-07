@@ -1,10 +1,6 @@
-import {Authentication} from "../modules/authentication";
-import {JWKWrapper} from "../modules/jwk-wrapper";
+import {Auth} from "../modules/authentication";
+import {JwkWrapper} from "../modules/jwk-wrapper";
 import {tokenDefaults} from "./token_defaults";
-
-// TODO be careful with multiple class instantiations | singleton way was done before
-const JwkWrapper = new JWKWrapper()
-const Auth = new Authentication()
 
 // id token claims -- claim props should be defined within scope of user aka user.json
 // if claim not defined in user.json then uses token default values

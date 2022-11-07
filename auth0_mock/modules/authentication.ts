@@ -1,6 +1,4 @@
-// TODO may need to be singleton so all share same instance
-
-export class Authentication {
+class Authentication {
     public loggedIn: boolean;
     public currentUser: any;
 
@@ -34,3 +32,4 @@ export class Authentication {
 
 }
 
+export const Auth = new Authentication()

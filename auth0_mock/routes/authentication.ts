@@ -1,15 +1,12 @@
-import {User} from "../modules/user";
 import * as express from "express";
-import {Authentication} from "../modules/authentication";
-import {JWKWrapper} from "../modules/jwk-wrapper";
-import {buildUriParams, auth0Url, removeNonceIfEmpty} from "../modules/helpers"
-import {accessTokenClaims} from "../token-claims/access";
+import {User} from "../modules/user";
+import {Auth} from "../modules/authentication";
 import {idTokenClaims} from "../token-claims/id";
+import {JwkWrapper} from "../modules/jwk-wrapper";
+import {accessTokenClaims} from "../token-claims/access";
+import {buildUriParams, auth0Url, removeNonceIfEmpty} from "../modules/helpers"
 
 const router = express.Router();
-const Auth = new Authentication();
-const JwkWrapper = new JWKWrapper();
-const user = new User();
 
 // path renders login page | used in conjunction with auth0 frontend libs | makes POST to login route
 router.get('/authorize', async (req, res) => {
@@ -80,7 +77,7 @@ router.post('/login', (req, res) => {
         return res.status(400).send('missing username or password');
     }
     // if login fails
-    if (!Auth.login(user.GetUser(req.body.username), req.body.pw)) {
+    if (!Auth.login(User.GetUser(req.body.username), req.body.pw)) {
         console.error('invalid login - ' + logMsg);
         return res.status(401).send('invalid username or password');
     }
@@ -107,7 +104,7 @@ router.get('/login', (req, res) => {
         return res.status(400).send('missing username or password');
     }
     // if login fails
-    if (!Auth.login(user.GetUser(req.query.username), req.query.pw)) {
+    if (!Auth.login(User.GetUser(req.query.username), req.query.pw)) {
         console.error('invalid login - ' + logMsg);
         return res.status(401).send('invalid username or password');
     }

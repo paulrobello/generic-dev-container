@@ -2,13 +2,11 @@ import * as jwktopem from "jwk-to-pem";
 import * as express from "express";
 import {auth0Url, removeNonceIfEmpty} from "../modules/helpers";
 import {checkLogin} from "../modules/middleware";
-import {JWKWrapper} from "../modules/jwk-wrapper";
+import {JwkWrapper} from "../modules/jwk-wrapper";
 import {accessTokenClaims} from "../token-claims/access";
 import {idTokenClaims} from "../token-claims/id";
 
-// TODO can we one line these in import like before?
 const router = express.Router();
-const JwkWrapper = new JWKWrapper()
 
 // TODO does router need export since we're not exporting whole object anymore
 // Returns JWKS (This is public and does not require login)

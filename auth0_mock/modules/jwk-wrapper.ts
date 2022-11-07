@@ -4,7 +4,7 @@ import * as jwkToPem from "jwk-to-pem"
 import {existsSync, readFileSync, writeFileSync} from "fs"
 // import {JWK, JWS} from 'jose' TODO dont want to import whole thing
 
-export class JWKWrapper {
+class JWKWrapper {
     // todo modify access levels access modifiers as needed
     public kty: string;
     public size: number;
@@ -135,3 +135,4 @@ export class JWKWrapper {
 }
 
 // module.exports = new JWKWrapper();
+export const JwkWrapper = new JWKWrapper()

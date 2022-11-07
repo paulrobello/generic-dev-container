@@ -1,9 +1,7 @@
 import {join} from "path";
 import {readFileSync, existsSync} from "fs";
 
-
-// TODO user may need to be singleton
-export class User {
+class Users {
     // TODO JSON === string but can we type json itself for structure?
     public userList: string;
 
@@ -28,3 +26,4 @@ export class User {
     }
 }
 
+export const User = new Users()

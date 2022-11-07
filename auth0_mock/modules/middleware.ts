@@ -1,11 +1,9 @@
-// TODO why doesn't it like import of local files?
-// import {Authentication} from './authentication'
-import Authentication from './authentication'
+import {Auth} from './authentication'
 
 // TODO better type hinting on express obj's | check for lib || type
 // checks if user is logged in
 export function checkLogin(req: any, res: any, next: any) {
-    if (Authentication.loggedIn) {
+    if (Auth.loggedIn) {
         return next();
     }
     console.log('Error user not logged in');
