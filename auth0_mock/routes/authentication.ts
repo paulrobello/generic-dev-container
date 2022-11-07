@@ -1,4 +1,4 @@
-import {Router} from "express";
+import {Router, Request, Response} from "express";
 import {User} from "../modules/user";
 import {Auth} from "../modules/authentication";
 import {idTokenClaims} from "../token-claims/id";
@@ -9,7 +9,7 @@ import {buildUriParams, auth0Url, removeNonceIfEmpty} from "../modules/helpers"
 export const routerAuth = Router();
 
 // path renders login page | used in conjunction with auth0 frontend libs | makes POST to login route
-routerAuth.get('/authorize', async (req, res) => {
+routerAuth.get('/authorize', async (req: Request, res: Response) => {
     // const {
     //     redirect_uri,
     //     prompt,
@@ -72,7 +72,7 @@ routerAuth.get('/authorize', async (req, res) => {
 // ======================
 
 // login route | associated with user in user.json file | post made by authorizer route template
-routerAuth.post('/login', (req, res) => {
+routerAuth.post('/login', (req: Request, res: Response) => {
     const logMsg = 'username = ' + req.body.username + ' && pw = ' + req.body.pw;
     const redirect = req.query.redirect || '';
     const state = req.query.state;
@@ -100,7 +100,7 @@ routerAuth.post('/login', (req, res) => {
 });
 
 // login route | alternative to using /authorizer->POST->/login flow
-routerAuth.get('/login', (req, res) => {
+routerAuth.get('/login', (req: Request, res: Response) => {
     const username: string = (req.query.username || "").toString();
     const password: string = (req.query.pw || "").toString();
     const logMsg = 'username = ' + username + ' && pw = ' + req.query.pw;
@@ -132,14 +132,14 @@ routerAuth.get('/login', (req, res) => {
 // logout routes
 // ======================
 
-routerAuth.get('/logout', (req, res) => {
+routerAuth.get('/logout', (req: Request, res: Response) => {
     const currentUser = JSON.stringify(Auth.currentUser);
     Auth.logout();
     console.log(`logged out ${currentUser}`);
     res.status(200).send('logged out');
 });
 
-routerAuth.get('/v2/logout', (req, res) => {
+routerAuth.get('/v2/logout', (req: Request, res: Response) => {
     const redirect = req.query.returnTo;
     const currentUser = JSON.stringify(Auth.currentUser);
     Auth.logout();

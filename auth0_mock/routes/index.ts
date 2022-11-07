@@ -1,9 +1,9 @@
-import {Router} from "express";
+import {Router, Request, Response} from "express";
 
 export const routerIndex = Router();
 
 // lists all the available routes
-routerIndex.get('/', (req, res) => {
+routerIndex.get('/', (req: Request, res: Response) => {
   const routes = {
     '/authorize':
       'GET - renders a login page which makes a POST request to login route - official auth0 service uses this route (most frontend frameworks will use it too)',

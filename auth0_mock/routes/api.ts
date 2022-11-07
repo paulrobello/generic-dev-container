@@ -1,5 +1,5 @@
 import jwktopem from "jwk-to-pem";
-import {Router} from "express";
+import {Router, Request, Response} from "express";
 import {auth0Url, removeNonceIfEmpty} from "../modules/helpers";
 import {checkLogin} from "../modules/middleware";
 import {JwkWrapper} from "../modules/jwk-wrapper";
@@ -8,19 +8,18 @@ import {idTokenClaims} from "../token-claims/id";
 
 export const routerApi = Router();
 
-// TODO does router need export since we're not exporting whole object anymore
 // Returns JWKS (This is public and does not require login)
-routerApi.get('/.well-known/jwks.json', (req, res) => {
+routerApi.get('/.well-known/jwks.json', (req: Request, res: Response) => {
     res.status(200).send(JwkWrapper.getKeys());
 });
 
 // Get the private key used to sign
-routerApi.get('/jwks', async (req, res) => {
+routerApi.get('/jwks', async (req: Request, res: Response) => {
     res.send(jwktopem(JwkWrapper.getKeys(true).keys[0], {private: true}));
 });
 
 // Returns access token for user
-routerApi.get('/access_token', checkLogin, async (req, res) => {
+routerApi.get('/access_token', checkLogin, async (req: Request, res: Response) => {
     res.send(
         await JwkWrapper.createToken(
             accessTokenClaims('', [`${auth0Url}/userinfo`])
@@ -29,14 +28,14 @@ routerApi.get('/access_token', checkLogin, async (req, res) => {
 });
 
 // Returns id token for user
-routerApi.get('/id_token', checkLogin, async (req, res) => {
+routerApi.get('/id_token', checkLogin, async (req: Request, res: Response) => {
     res.send(
         await JwkWrapper.createToken(removeNonceIfEmpty(idTokenClaims()))
     );
 });
 
 // Auth0 token route | returns access && id token
-routerApi.post('/oauth/token', checkLogin, async (req, res) => {
+routerApi.post('/oauth/token', checkLogin, async (req: Request, res: Response) => {
     console.log(JwkWrapper.getKeys(true));
     const {client_id} = req.body;
     const accessTokenClaim = accessTokenClaims(client_id, [
@@ -55,7 +54,7 @@ routerApi.post('/oauth/token', checkLogin, async (req, res) => {
 });
 
 // Used to verify token
-routerApi.get('/verify_token_test', checkLogin, async (req, res) => {
+routerApi.get('/verify_token_test', checkLogin, async (req: Request, res: Response) => {
     await JwkWrapper.verify(
         await JwkWrapper.createToken(removeNonceIfEmpty(idTokenClaims()))
     );
@@ -63,6 +62,6 @@ routerApi.get('/verify_token_test', checkLogin, async (req, res) => {
 });
 
 // Used to get userinfo
-routerApi.get('/userinfo', checkLogin, (req, res) => {
+routerApi.get('/userinfo', checkLogin, (req: Request, res: Response) => {
     res.json(removeNonceIfEmpty(idTokenClaims()));
 });
