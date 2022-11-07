@@ -59,14 +59,10 @@ routerApi.get('/verify_token_test', checkLogin, async (req, res) => {
     await JwkWrapper.verify(
         await JwkWrapper.createToken(removeNonceIfEmpty(idTokenClaims()))
     );
-    res.send('done - run docker logs auth0_mock -f to see outputs for debugging');
+    res.send('done - see logs for details');
 });
 
 // Used to get userinfo
 routerApi.get('/userinfo', checkLogin, (req, res) => {
     res.json(removeNonceIfEmpty(idTokenClaims()));
 });
-
-// export = router;
-// export router;
-// module.exports = router;

@@ -149,6 +149,3 @@ routerAuth.get('/v2/logout', (req, res) => {
         })
         .end();
 });
-
-// module.exports = router;
-// export = router;

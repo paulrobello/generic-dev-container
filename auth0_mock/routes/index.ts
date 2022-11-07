@@ -30,6 +30,3 @@ routerIndex.get('/', (req, res) => {
     .header('Content-Type', 'application/json')
     .send(JSON.stringify(routes, null, 4));
 });
-
-// module.exports = router;
-// export = router;
