@@ -1,12 +1,12 @@
 import jwktopem from "jwk-to-pem";
-import express from "express";
+import {Router} from "express";
 import {auth0Url, removeNonceIfEmpty} from "../modules/helpers";
 import {checkLogin} from "../modules/middleware";
 import {JwkWrapper} from "../modules/jwk-wrapper";
 import {accessTokenClaims} from "../token-claims/access";
 import {idTokenClaims} from "../token-claims/id";
 
-export const routerApi = express.Router();
+export const routerApi = Router();
 
 // TODO does router need export since we're not exporting whole object anymore
 // Returns JWKS (This is public and does not require login)

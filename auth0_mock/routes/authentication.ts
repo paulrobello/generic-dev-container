@@ -1,4 +1,4 @@
-import express from "express";
+import {Router} from "express";
 import {User} from "../modules/user";
 import {Auth} from "../modules/authentication";
 import {idTokenClaims} from "../token-claims/id";
@@ -6,7 +6,7 @@ import {JwkWrapper} from "../modules/jwk-wrapper";
 import {accessTokenClaims} from "../token-claims/access";
 import {buildUriParams, auth0Url, removeNonceIfEmpty} from "../modules/helpers"
 
-export const routerAuth = express.Router();
+export const routerAuth = Router();
 
 // path renders login page | used in conjunction with auth0 frontend libs | makes POST to login route
 routerAuth.get('/authorize', async (req, res) => {
@@ -18,6 +18,7 @@ routerAuth.get('/authorize', async (req, res) => {
     //     audience
     // }: { redirect_uri: string; prompt: string; state: string; nonce: string; audience: string; } = req.query;
     const {redirect_uri, prompt, state, client_id, nonce, audience} = req.query;
+    // TODO toString on non existant dont work | need to default it
     JwkWrapper.setNonce(nonce.toString());
     if (!redirect_uri) {
         return res.status(400).send('missing redirect url');
@@ -100,8 +101,8 @@ routerAuth.post('/login', (req, res) => {
 
 // login route | alternative to using /authorizer->POST->/login flow
 routerAuth.get('/login', (req, res) => {
-    const username: string = req.query.username.toString();
-    const password: string = req.query.pw.toString();
+    const username: string = (req.query.username || "").toString();
+    const password: string = (req.query.pw || "").toString();
     const logMsg = 'username = ' + username + ' && pw = ' + req.query.pw;
 
     if (Auth.loggedIn) {
