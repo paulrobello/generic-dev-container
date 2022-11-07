@@ -3,7 +3,7 @@ import {readFileSync, existsSync} from "fs";
 
 class Users {
     // TODO JSON === string but can we type json itself for structure?
-    public userList: string;
+    public userList: any;
 
     constructor(userFileName: string = "", userFileDir: string = './') {
         if (!userFileName) {
@@ -21,7 +21,6 @@ class Users {
 
     // get user object for specific username
     GetUser(username: string): any {
-        // TODO doesnt like string lookup on object
         return this.userList[username] || {};
     }
 }
