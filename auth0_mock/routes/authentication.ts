@@ -10,9 +10,15 @@ export const routerAuth = express.Router();
 
 // path renders login page | used in conjunction with auth0 frontend libs | makes POST to login route
 routerAuth.get('/authorize', async (req, res) => {
-    // TODO need typings on this
+    // const {
+    //     redirect_uri,
+    //     prompt,
+    //     state,
+    //     nonce,
+    //     audience
+    // }: { redirect_uri: string; prompt: string; state: string; nonce: string; audience: string; } = req.query;
     const {redirect_uri, prompt, state, client_id, nonce, audience} = req.query;
-    JwkWrapper.setNonce(nonce);
+    JwkWrapper.setNonce(nonce.toString());
     if (!redirect_uri) {
         return res.status(400).send('missing redirect url');
     }
@@ -31,8 +37,8 @@ routerAuth.get('/authorize', async (req, res) => {
             return res.writeHead(302, {Location: locationNoPrompt}).end();
         }
         console.log('silent refresh user logged in, doing refresh');
-        const accessTokenC = accessTokenClaims(audience, [
-            audience,
+        const accessTokenC = accessTokenClaims(audience.toString(), [
+            audience.toString(),
             `${auth0Url}/userinfo`
         ]);
         const vars = {
@@ -41,7 +47,7 @@ routerAuth.get('/authorize', async (req, res) => {
             access_token: await JwkWrapper.createToken(accessTokenC),
             expires_in: 86400,
             id_token: await JwkWrapper.createToken(
-                removeNonceIfEmpty(idTokenClaims(audience))
+                removeNonceIfEmpty(idTokenClaims(audience.toString()))
             ),
             scope: accessTokenC.scope,
             token_type: 'Bearer'
@@ -87,25 +93,26 @@ routerAuth.post('/login', (req, res) => {
 
     return res
         .writeHead(302, {
-            Location: `${redirect}?code=1234&state=${encodeURIComponent(state)}`
+            Location: `${redirect}?code=1234&state=${encodeURIComponent(state.toString())}`
         })
         .end();
 });
 
 // login route | alternative to using /authorizer->POST->/login flow
 routerAuth.get('/login', (req, res) => {
-    const logMsg =
-        'username = ' + req.query.username + ' && pw = ' + req.query.pw;
+    const username: string = req.query.username.toString();
+    const password: string = req.query.pw.toString();
+    const logMsg = 'username = ' + username + ' && pw = ' + req.query.pw;
 
     if (Auth.loggedIn) {
         Auth.logout();
     }
     // if missing username || password params then error
-    if (!req.query.username || !req.query.pw) {
+    if (!username || !password) {
         return res.status(400).send('missing username or password');
     }
     // if login fails
-    if (!Auth.login(User.GetUser(req.query.username), req.query.pw)) {
+    if (!Auth.login(User.GetUser(username), password)) {
         console.error('invalid login - ' + logMsg);
         return res.status(401).send('invalid username or password');
     }
