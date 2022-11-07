@@ -67,12 +67,12 @@ Returns JWKeySet
 #### `GET` /access_token
 *user must be logged in to access*<br>
 
-Returns access_token for user. [access_token props can be found here](./token-claims/access.js)
+Returns access_token for user. [access_token props can be found here](./token-claims/access.ts)
 
 #### `GET` /id_token
 *user must be logged in to access*<br>
 
-returns id_token for user. [id_token props can be found here](./token-claims/id.js)
+returns id_token for user. [id_token props can be found here](./token-claims/id.ts)
 
 #### `POST` /oauth/token
 *user must be logged in to access*<br>
@@ -90,7 +90,7 @@ verifies token for debug purposes - outputs to container logs
 *user must be logged in to access*<br>
 *official auth0 service uses this route (most frontend frameworks will use it too)*<br>
 
-returns [id claims](./token-claims/id.js) 
+returns [id claims](./token-claims/id.ts) 
 
 ### Modify user and/or properties
 
@@ -103,7 +103,7 @@ To modify a user go into [user.json](./users.json). From here you can add/remove
 ### Modify token claims
 
 Claims may be modified from within the *Token_Claims* directory. Claim values can be static or pulled from user file (
-user.json) or [token defaults file](./token-claims/token_defaults.js)
+user.json) or [token defaults file](./token-claims/token_defaults.ts)
 
 ### Self Signed SSL Cert
 [instructions contained here!](./certs/README.md)
