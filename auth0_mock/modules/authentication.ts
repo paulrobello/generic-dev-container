@@ -13,7 +13,8 @@ class Authentication {
     // if userObj is passed in & not empty then username was correct & only pw needs to be checked
     login(userObj: IUsers, pw: string): boolean {
         if (
-            userObj.hasOwnProperty('pw') &&
+            userObj &&
+            "pw" in userObj &&
             userObj.pw.toLowerCase() === pw.toLowerCase()
         ) {
             this.loggedIn = true;
