@@ -1,5 +1,4 @@
-1) FIX // TODO find way to get around this --> // @ts-ignore | issues with typings
 2) get test harness up & running
 3) get tests complete
 4) test with frontend in GDC make sure everything works
-5) DONE 
+5) DONE

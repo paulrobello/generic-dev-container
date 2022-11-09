@@ -1,8 +1,8 @@
-import {JWK, JWS} from "node-jose";
 import jwt from "jsonwebtoken";
-import jwkToPem from "jwk-to-pem";
+import {JWK, JWS} from "node-jose";
+import jwkToBuffer from "jwk-to-pem";
 import {existsSync, readFileSync, writeFileSync} from "fs";
-import {IIdTokenClaims, IAccessTokenClaims} from "../types";
+import {IIdTokenClaims, IAccessTokenClaims, IKeyList} from "../types";
 
 class JWKWrapper {
     private readonly kty: string;
@@ -54,7 +54,6 @@ class JWKWrapper {
     // Create key set and store on local file system
     createJwks(): void {
         console.log('Creating JWKS store');
-        // TODO better type hinting here gives issue
         let keyStorePromise: Promise<any> = null;
         if (existsSync('./ext_pk/auth0_jwk.json')) {
             console.log('Found external JWK file, loading it in store');
@@ -81,22 +80,12 @@ class JWKWrapper {
     }
 
     // return key set
-    getKeys(includePrivateKey: boolean = false, retType: string = '') {
-        // getKeys(includePrivateKey: boolean = false, retType: string = ''): JWK.KeyStore {
-        retType = retType.toLowerCase() || '';
-        if (retType !== 'json' || !retType) {
-            retType = 'json';
-        }
-        if (retType === 'json') {
-            // return this.keyStore.toJSON(includePrivateKey) as JWK.KeyStore;
-            return this.keyStore.toJSON(includePrivateKey);
-        }
-        return this.keyStore;
+    getKeys(includePrivateKey: boolean = false): IKeyList {
+        return this.keyStore.toJSON(includePrivateKey) as IKeyList;
     }
 
-    // TODO return type here needs to be defined better | giving issues with verify in api usage
     // create token with given payload & options
-    async createToken(payload: IIdTokenClaims | IAccessTokenClaims, opt: object = {}) {// : Promise<JWS.CreateSignResult> {
+    async createToken(payload: IIdTokenClaims | IAccessTokenClaims, opt: object = {}): Promise<JWS.CreateSignResult> {
         const key: JWK.Key = this.keyStore.all({use: 'sig'})[0];
 
         // default options if none passed in
@@ -109,12 +98,12 @@ class JWKWrapper {
             .final();
     }
 
-    async verify(token: string) {
+    async verify(token: JWS.CreateSignResult) {
         console.log('verify token');
 
         // Use first sig key
         const key: JWK.Key = this.keyStore.all({use: 'sig'})[0];
-        const v: JWS.VerificationResult = await JWS.createVerify(this.keyStore).verify(token);
+        const v: JWS.VerificationResult = await JWS.createVerify(this.keyStore).verify(token.signResult.toString());
 
         console.log('token');
         console.log(token);
@@ -123,17 +112,13 @@ class JWKWrapper {
         console.log(v.payload.toString());
 
         // Verify Token with jsonwebtoken
-        // TODO find way to get around this
-        // @ts-ignore
-        const publicKey: string = jwkToPem(key.toJSON());
-        // TODO find way to get around this
-        // @ts-ignore
-        const privateKey: string = jwkToPem(key.toJSON(true), {private: true});
+        const publicKey: string = jwkToBuffer(key.toJSON() as jwkToBuffer.JWK);
+        const privateKey: string = jwkToBuffer(key.toJSON(true) as jwkToBuffer.JWK, {private: true});
 
         console.log('public', publicKey);
         console.log('private', privateKey);
 
-        const decoded = jwt.verify(token, publicKey);
+        const decoded = jwt.verify(token.signResult.toString(), publicKey);
         console.log('decoded', decoded);
     }
 }

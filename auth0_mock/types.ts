@@ -1,3 +1,5 @@
+import jwkToBuffer from "jwk-to-pem";
+
 export interface IAuthorize {
     redirect_uri: string
     prompt: string
@@ -97,3 +99,7 @@ export const LoginDefaults: ILogin = {
     username: "",
     pw: "",
 };
+
+export interface IKeyList {
+    keys: jwkToBuffer.JWK[]
+}

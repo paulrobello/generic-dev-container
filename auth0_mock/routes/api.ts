@@ -16,8 +16,6 @@ routerApi.get('/.well-known/jwks.json', (req: Request, res: Response) => {
 
 // Get the private key used to sign
 routerApi.get('/jwks', async (req: Request, res: Response) => {
-    // TODO find way to get around this
-    // @ts-ignore
     res.status(200).send(jwktopem(JwkWrapper.getKeys(true).keys[0], {private: true}));
 });
 
@@ -59,8 +57,6 @@ routerApi.post('/oauth/token', checkLogin, async (req: Request, res: Response) =
 // Used to verify token
 routerApi.get('/verify_token_test', checkLogin, async (req: Request, res: Response) => {
     await JwkWrapper.verify(
-        // TODO find workaround with this
-        // @ts-ignore
         await JwkWrapper.createToken(removeNonceIfEmpty(idTokenClaims()))
     );
     res.status(200).send('done - see logs for details');
