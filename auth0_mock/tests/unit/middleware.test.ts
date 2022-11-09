@@ -43,7 +43,7 @@ describe("middleware tests", () => {
 
         });
     });
-    // TODO could do some things with mocking console.log but not really needed 
+    // TODO could do some things with mocking console.log but not really needed
     // describe("rawReqLogger tests", () => {
     //     it("should console.log things & return nextFunc", () => {
     //         const request: Request = httpMocks.createRequest();
