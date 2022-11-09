@@ -36,7 +36,7 @@ routerAuth.get('/authorize', async (req: Request, res: Response) => {
             audience,
             `${auth0Url}/userinfo`
         ]);
-        const vars = {
+        const vars:Record<string, any> = {
             state,
             code: '1234',
             access_token: await JwkWrapper.createToken(accessTokenC),
