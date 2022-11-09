@@ -10,6 +10,7 @@ export function checkLogin(req: Request, res: Response, next: NextFunction): Res
     return res.status(401).send('Unauthorized. User not logged in');
 }
 
+// logs raw request props
 export function rawReqLogger(req: Request, res: Response, next: NextFunction): void {
     // Debug helper | logs props for all requests
     console.log('==========================================');
