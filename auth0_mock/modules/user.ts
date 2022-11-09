@@ -3,6 +3,7 @@ import {readFileSync, existsSync} from "fs";
 import {IUsers, UsersDefaults} from "../types";
 
 class Users {
+    // TODO can we make string be === IUsers username to enforce it?
     private readonly userList: Record<string, IUsers>;
 
     constructor(userFileName: string = "", userFileDir: string = './') {
