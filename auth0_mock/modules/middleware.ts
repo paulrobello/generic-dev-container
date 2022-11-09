@@ -1,8 +1,8 @@
 import {Auth} from './authentication'
+import {Request, Response, NextFunction} from "express";
 
-// TODO better type hinting on express obj's | check for lib || type
 // checks if user is logged in
-export function checkLogin(req: any, res: any, next: any) {
+export function checkLogin(req: Request, res: Response, next: NextFunction): Response | void {
     if (Auth.loggedIn) {
         return next();
     }
@@ -10,7 +10,7 @@ export function checkLogin(req: any, res: any, next: any) {
     return res.status(401).send('Unauthorized. User not logged in');
 }
 
-export function rawReqLogger(req: any, res: any, next: any) {
+export function rawReqLogger(req: Request, res: Response, next: NextFunction): void {
     // Debug helper | logs props for all requests
     console.log('==========================================');
     console.log(new Date().toISOString(), 'raw request logging');

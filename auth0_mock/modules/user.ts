@@ -1,9 +1,9 @@
 import {join} from "path";
 import {readFileSync, existsSync} from "fs";
+import {IUsers, UsersDefaults} from "../types";
 
 class Users {
-    // TODO JSON === string but can we type json itself for structure?
-    public userList: any;
+    private readonly userList: Record<string, IUsers>;
 
     constructor(userFileName: string = "", userFileDir: string = './') {
         if (!userFileName) {
@@ -20,8 +20,8 @@ class Users {
     }
 
     // get user object for specific username
-    GetUser(username: string): any {
-        return this.userList[username] || {};
+    GetUser(username: string): IUsers {
+        return this.userList[username] || UsersDefaults;
     }
 }
 

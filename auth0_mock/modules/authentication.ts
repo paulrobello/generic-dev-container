@@ -1,17 +1,17 @@
+import {IUsers, UsersDefaults} from "../types";
+
 class Authentication {
     public loggedIn: boolean;
-    public currentUser: any;
-
-    // TODO need better type hinting
+    public currentUser: IUsers;
 
     constructor() {
         this.loggedIn = false;
-        this.currentUser = {};
+        this.currentUser = UsersDefaults;
     }
 
     // log a user in
     // if userObj is passed in & not empty then username was correct & only pw needs to be checked
-    login(userObj: any, pw: any) {
+    login(userObj: IUsers, pw: string): boolean {
         if (
             userObj.hasOwnProperty('pw') &&
             userObj.pw.toLowerCase() === pw.toLowerCase()
@@ -24,9 +24,9 @@ class Authentication {
     }
 
     // log a user out
-    logout() {
+    logout(): void {
         this.loggedIn = false;
-        this.currentUser = {};
+        this.currentUser = UsersDefaults;
         console.log('logged out');
     }
 

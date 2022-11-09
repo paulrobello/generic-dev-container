@@ -7,7 +7,8 @@
     "build": "tsc",
     "prestart": "yarn install && yarn run build",
     "start": "node .",
-    "cleanup": "rm -rf node_modules keys.json"
+    "cleanup": "rm -rf node_modules keys.json",
+    "test": "test"
   },
   "dependencies": {
     "body-parser": "^1.20.1",

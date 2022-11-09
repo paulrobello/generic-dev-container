@@ -1,6 +1,7 @@
 import {auth0Url} from "../modules/helpers"
+import {ITokenDefault} from "../types"
 
-export const tokenDefaults = {
+export const tokenDefaults: ITokenDefault = {
     domain: auth0Url + '/',
     sub: 'samlp|MyAzure|',
     defaultPermissions: ['chat.admin', 'chat.user'],

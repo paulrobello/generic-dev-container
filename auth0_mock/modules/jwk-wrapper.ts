@@ -1,31 +1,29 @@
-import jose from "node-jose"
-import jwt from "jsonwebtoken"
-import jwkToPem from "jwk-to-pem"
-import {existsSync, readFileSync, writeFileSync} from "fs"
-// import {JWK, JWS} from 'jose' TODO dont want to import whole thing
+import {JWK, JWS} from "node-jose";
+import jwt from "jsonwebtoken";
+import jwkToPem from "jwk-to-pem";
+import {existsSync, readFileSync, writeFileSync} from "fs";
+import {IIdTokenClaims, IAccessTokenClaims} from "../types";
 
 class JWKWrapper {
-    // todo modify access levels access modifiers as needed
-    public kty: string;
-    public size: number;
-    public jwkFileName: string;
-    public expirationDurationInMinutes: number;
-    public nonce: string;
-    // TODO better typing here interface
-    public props: any;
-    public keyStore: any;
+    private readonly kty: string;
+    private readonly size: number;
+    private readonly jwkFileName: string;
+    private readonly expirationDurationInMinutes: number;
+    private nonce: string;
+    private readonly props: any;
+    private keyStore: JWK.KeyStore;
 
     constructor(
-        kty = 'RSA',
-        size = 2048,
-        props = {alg: 'RS256', use: 'sig'},
-        jwkFileName = 'keys.json'
+        kty: string = 'RSA',
+        size: number = 2048,
+        props: object = {alg: 'RS256', use: 'sig'},
+        jwkFileName: string = 'keys.json'
     ) {
         this.kty = kty;
         this.size = size;
         this.props = props;
         this.jwkFileName = jwkFileName;
-        this.keyStore = jose.JWK.createKeyStore();
+        this.keyStore = JWK.createKeyStore();
         // 1440 minutes === 24 hours
         this.expirationDurationInMinutes = 1440;
         this.nonce = '';
@@ -33,11 +31,10 @@ class JWKWrapper {
     }
 
     // return nonce
-    getNonce() {
+    getNonce(): string {
         return this.nonce;
     }
 
-    // TODO not needed if public
     setNonce(nonce: string) {
         this.nonce = nonce;
     }
@@ -55,9 +52,10 @@ class JWKWrapper {
     }
 
     // Create key set and store on local file system
-    createJwks() {
+    createJwks(): void {
         console.log('Creating JWKS store');
-        let keyStorePromise = null;
+        // TODO better type hinting here gives issue
+        let keyStorePromise: Promise<any> = null;
         if (existsSync('./ext_pk/auth0_jwk.json')) {
             console.log('Found external JWK file, loading it in store');
             const keyData = readFileSync('./ext_pk/auth0_jwk.json', {
@@ -65,8 +63,7 @@ class JWKWrapper {
                 flag: 'r'
             });
             const keyJson = JSON.parse(keyData);
-            // TODO better promise typings
-            keyStorePromise = jose.JWK.asKeyStore([keyJson]).then((result: any) => {
+            keyStorePromise = JWK.asKeyStore([keyJson]).then((result: any) => {
                 // {result} is a jose.JWK.KeyStore
                 this.keyStore = result;
             });
@@ -75,7 +72,7 @@ class JWKWrapper {
             keyStorePromise = this.keyStore.generate(this.kty, this.size, this.props);
         }
 
-        keyStorePromise.then((result: any) =>
+        keyStorePromise.then(() =>
             writeFileSync(
                 this.jwkFileName,
                 JSON.stringify(this.keyStore.toJSON(true), null, '  ')
@@ -85,37 +82,40 @@ class JWKWrapper {
 
     // return key set
     getKeys(includePrivateKey: boolean = false, retType: string = '') {
+        // getKeys(includePrivateKey: boolean = false, retType: string = ''): JWK.KeyStore {
         retType = retType.toLowerCase() || '';
         if (retType !== 'json' || !retType) {
             retType = 'json';
         }
         if (retType === 'json') {
+            // return this.keyStore.toJSON(includePrivateKey) as JWK.KeyStore;
             return this.keyStore.toJSON(includePrivateKey);
         }
         return this.keyStore;
     }
 
-    // TODO better typing on payload
+    // TODO return type here needs to be defined better | giving issues with verify in api usage
     // create token with given payload & options
-    async createToken(payload: any, opt = {}) {
-        const key = this.keyStore.all({use: 'sig'})[0];
+    async createToken(payload: IIdTokenClaims | IAccessTokenClaims, opt: object = {}) {// : Promise<JWS.CreateSignResult> {
+        const key: JWK.Key = this.keyStore.all({use: 'sig'})[0];
 
         // default options if none passed in
         if (Object.keys(opt).length === 0) {
             opt = {compact: true, jwk: key, fields: {typ: 'jwt'}};
         }
 
-        return await jose.JWS.createSign(opt, key)
+        return await JWS.createSign(opt, key)
             .update(JSON.stringify(payload))
             .final();
     }
 
-    async verify(token: any) {
+    async verify(token: string) {
         console.log('verify token');
 
         // Use first sig key
-        const key = this.keyStore.all({use: 'sig'})[0];
-        const v = await jose.JWS.createVerify(this.keyStore).verify(token);
+        const key: JWK.Key = this.keyStore.all({use: 'sig'})[0];
+        const v: JWS.VerificationResult = await JWS.createVerify(this.keyStore).verify(token);
+
         console.log('token');
         console.log(token);
         console.log('Verify Token');
@@ -123,8 +123,12 @@ class JWKWrapper {
         console.log(v.payload.toString());
 
         // Verify Token with jsonwebtoken
-        const publicKey = jwkToPem(key.toJSON());
-        const privateKey = jwkToPem(key.toJSON(true), {private: true});
+        // TODO find way to get around this
+        // @ts-ignore
+        const publicKey: string = jwkToPem(key.toJSON());
+        // TODO find way to get around this
+        // @ts-ignore
+        const privateKey: string = jwkToPem(key.toJSON(true), {private: true});
 
         console.log('public', publicKey);
         console.log('private', privateKey);
@@ -134,5 +138,4 @@ class JWKWrapper {
     }
 }
 
-// module.exports = new JWKWrapper();
 export const JwkWrapper = new JWKWrapper()

@@ -1,17 +1,17 @@
-// TODO better type hinting not just any
-// TODO use interfaces for obj's
-export function removeNonceIfEmpty(obj: any) {
+import {IIdTokenClaims} from "../types";
+
+export function removeNonceIfEmpty(obj: IIdTokenClaims): IIdTokenClaims {
     if ('nonce' in obj && obj.nonce === '') {
         delete obj.nonce;
     }
     return obj;
 }
 
-export function removeTrailingSlash(str: any) {
+export function removeTrailingSlash(str: string): string {
     return str.endsWith('/') ? str.slice(0, -1) : str;
 }
 
-export function buildUriParams(vars: any) {
+export function buildUriParams(vars: Record<string, any>): string {
     return Object.keys(vars)
         .reduce((a, k) => {
             a.push(`${k}=${encodeURIComponent(vars[k])}`);
