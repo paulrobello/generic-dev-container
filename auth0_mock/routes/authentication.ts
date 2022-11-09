@@ -78,7 +78,7 @@ routerAuth.post('/login', (req: Request, res: Response) => {
         return res.status(400).send('missing username or password');
     }
     // if login fails
-    if (!Auth.login(User.GetUser(username), pw)) {
+    if (!Auth.login(User.getUser(username), pw)) {
         console.error('invalid login - ' + logMsg);
         return res.status(401).send('invalid username or password');
     }
@@ -105,7 +105,7 @@ routerAuth.get('/login', (req: Request, res: Response) => {
         return res.status(400).send('missing username or password');
     }
     // if login fails
-    if (!Auth.login(User.GetUser(username), pw)) {
+    if (!Auth.login(User.getUser(username), pw)) {
         console.error('invalid login - ' + logMsg);
         return res.status(401).send('invalid username or password');
     }

@@ -20,7 +20,7 @@ class Users {
     }
 
     // get user object for specific username
-    GetUser(username: string): IUsers {
+    public getUser(username: string): IUsers {
         return this.userList[username] || UsersDefaults;
     }
 }
