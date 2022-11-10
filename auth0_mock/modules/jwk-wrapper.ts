@@ -35,7 +35,7 @@ class JWKWrapper {
         return this.nonce;
     }
 
-    setNonce(nonce: string) {
+    setNonce(nonce: string): void {
         this.nonce = nonce;
     }
 
