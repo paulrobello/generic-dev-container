@@ -15,6 +15,7 @@ app
     .use(urlencoded({extended: true}))
     .use(cors())
     .options('*', cors())
+    .use(express.static('public'))
     .use(rawReqLogger)
     .use([routerIndex, routerAuth, routerApi]);
 
