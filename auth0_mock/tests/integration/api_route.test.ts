@@ -1,6 +1,6 @@
 import {join} from "path";
 import {JWS} from "node-jose";
-import app from "../../index"; // TODO causing test leak | refactor? -> yarn run test-leaks
+import app from "../../index";
 import request from "supertest";
 import {readFileSync} from "fs";
 import {IUsers} from "../../types";
