@@ -10,7 +10,8 @@
     "cleanup": "rm -rf node_modules keys.json",
     "test": "jest",
     "test-dev": "jest --watch",
-    "test-leaks": "jest --detectOpenHandles"
+    "test-leaks": "jest --detectOpenHandles",
+    "test-coverage": "jest --coverage"
   },
   "dependencies": {
     "body-parser": "^1.20.1",
