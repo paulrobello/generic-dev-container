@@ -1,0 +1,4 @@
+coverage/*
+keys.json
+*.log
+*.lock
