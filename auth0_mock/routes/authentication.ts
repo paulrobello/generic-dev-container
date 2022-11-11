@@ -7,7 +7,7 @@ import {accessTokenClaims} from "../token-claims/access";
 import {buildUriParams, auth0Url, removeNonceIfEmpty} from "../modules/helpers"
 import {IAuthorize, AuthorizedDefaults, IAccessTokenClaims, ILogin, LoginDefaults} from "../types";
 
-export const routerAuth = Router();
+export const routerAuth: Router = Router();
 
 // path renders login page | used in conjunction with auth0 frontend libs | makes POST to login route
 routerAuth.get('/authorize', async (req: Request, res: Response) => {

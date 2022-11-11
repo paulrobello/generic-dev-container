@@ -1,6 +1,6 @@
 import {Router, Request, Response} from "express";
 
-export const routerIndex = Router();
+export const routerIndex: Router = Router();
 
 // lists all the available routes
 routerIndex.get('/', (req: Request, res: Response) => {

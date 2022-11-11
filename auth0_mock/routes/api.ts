@@ -7,7 +7,7 @@ import {accessTokenClaims} from "../token-claims/access";
 import {idTokenClaims} from "../token-claims/id";
 import {IAccessTokenClaims} from "../types";
 
-export const routerApi = Router();
+export const routerApi: Router = Router();
 
 // Returns JWKS (This is public and does not require login)
 routerApi.get('/.well-known/jwks.json', (req: Request, res: Response) => {
