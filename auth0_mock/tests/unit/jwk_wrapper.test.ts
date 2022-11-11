@@ -1,6 +1,6 @@
 import fs from "fs";
 import {JwkWrapper} from "../../modules/jwk-wrapper";
-import {idTokenClaims} from "../../token-claims/id";
+import {sleep} from "../utils";
 
 describe("JWKWrapper tests", () => {
     it("should return Nonce when getNonce is called", () => {
@@ -23,12 +23,16 @@ describe("JWKWrapper tests", () => {
     it("should get exp date (a number) when getExp is called", () => {
         expect(typeof JwkWrapper.getExp() === "number").toBeTruthy();
     });
-    it("should create JWKS file when createJwks is called", () => {
-        const filePath = "../../keys.json";
+    it("should create JWKS file when createJwks is called", async () => {
+        const filePath = "./keys.json";
         // make sure keys.json is deleted
         fs.unlinkSync(filePath);
         // run method
         JwkWrapper.createJwks();
+        // fails without sleep even though usage is synchronous
+        await sleep(.00000000000000000000000000000001);
+        console.log(fs.existsSync(filePath));
+        // should create file
         expect(fs.existsSync(filePath)).toBeTruthy();
     });
     // TODO finish | we need to make sure that jwt token is what it is

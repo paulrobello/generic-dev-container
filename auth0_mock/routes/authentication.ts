@@ -95,7 +95,7 @@ routerAuth.post('/login', (req: Request, res: Response) => {
 // login route | alternative to using /authorizer->POST->/login flow
 routerAuth.get('/login', (req: Request, res: Response) => {
     const {username, pw}: ILogin = {...LoginDefaults, ...req.query}
-    const logMsg = 'username = ' + username + ' && pw = ' + req.query.pw;
+    const logMsg = 'username = ' + username + ' && pw = ' + pw;
 
     if (Auth.loggedIn) {
         Auth.logout();

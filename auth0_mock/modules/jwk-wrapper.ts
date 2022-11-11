@@ -98,28 +98,33 @@ class JWKWrapper {
             .final();
     }
 
-    async verify(token: JWS.CreateSignResult) {
-        console.log('verify token');
+    async verify(token: JWS.CreateSignResult): Promise<boolean> {
+        try {
+            console.log('verify token');
 
-        // Use first sig key
-        const key: JWK.Key = this.keyStore.all({use: 'sig'})[0];
-        const v: JWS.VerificationResult = await JWS.createVerify(this.keyStore).verify(token.signResult.toString());
+            // Use first sig key
+            const key: JWK.Key = this.keyStore.all({use: 'sig'})[0];
+            const v: JWS.VerificationResult = await JWS.createVerify(this.keyStore).verify(token.signResult.toString());
 
-        console.log('token');
-        console.log(token);
-        console.log('Verify Token');
-        console.log(v.header);
-        console.log(v.payload.toString());
+            console.log('token');
+            console.log(token);
+            console.log('Verify Token');
+            console.log(v.header);
+            console.log(v.payload.toString());
 
-        // Verify Token with jsonwebtoken
-        const publicKey: string = jwkToBuffer(key.toJSON() as jwkToBuffer.JWK);
-        const privateKey: string = jwkToBuffer(key.toJSON(true) as jwkToBuffer.JWK, {private: true});
+            // Verify Token with jsonwebtoken
+            const publicKey: string = jwkToBuffer(key.toJSON() as jwkToBuffer.JWK);
+            const privateKey: string = jwkToBuffer(key.toJSON(true) as jwkToBuffer.JWK, {private: true});
 
-        console.log('public', publicKey);
-        console.log('private', privateKey);
+            console.log('public', publicKey);
+            console.log('private', privateKey);
 
-        const decoded = jwt.verify(token.signResult.toString(), publicKey);
-        console.log('decoded', decoded);
+            const decoded = jwt.verify(token.signResult.toString(), publicKey);
+            console.log('decoded', decoded);
+            return true;
+        } catch (e) {
+            return false
+        }
     }
 }
 
