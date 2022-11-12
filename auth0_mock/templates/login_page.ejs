@@ -16,6 +16,75 @@
             background: linear-gradient(to right, #020024, #0e0e9d, #00d4ff);
         }
 
+        /* main section home */
+        #ufoImageContainer {
+            width: 9vw;
+            position: absolute;
+            top: 3vh;
+            left: 87vw;
+        }
+
+        /* animation is inconsistant on safari */
+        /* for ufo animation */
+        .ufoImage{
+            transform: translate3d(0px, 0rem, 0px);
+            /* animation: ufoRotation 2.7s linear infinite; */
+
+            animation-name: ufoRotation;
+            animation-duration: 2.7s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+
+
+            /* -webkit-animation: ufoRotation 2.7s linear infinite; */
+            -webkit-animation-name: ufoRotation;
+            -webkit-animation-duration: 2.7s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: linear;
+
+            /* -webkit-animation-fill-mode: forwards; */
+            -moz-animation: ufoRotation 2.7s linear infinite;
+            -o-animation: ufoRotation 2.7s linear infinite;
+            width: 100%;
+        }
+
+        @keyframes ufoRotation{
+            0% {
+                transform: rotate(0deg) translate(3.5rem) rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-360deg) translate(3.5rem) rotate(360deg);
+            }
+        }
+        @-webkit-keyframes ufoRotation{
+            0% {
+                -webkit-transform: rotate(0deg) translate(3.5rem) rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(-360deg) translate(3.5rem) rotate(360deg);
+            }
+        }
+        @-moz-keyframes ufoRotation{
+            0% {
+                -moz-transform: rotate(0deg) translate(3.5rem) rotate(0deg);
+            }
+
+            100% {
+                -moz-transform: rotate(-360deg) translate(3.5rem) rotate(360deg);
+            }
+        }
+        @-o-keyframes ufoRotation{
+            0% {
+                -o-transform: rotate(0deg) translate(3.5rem) rotate(0deg);
+            }
+
+            100% {
+                -o-transform: rotate(-360deg) translate(3.5rem) rotate(360deg);
+            }
+        }
+
         @media (min-width: 768px) {
             .magical-form {
                 height: 100vh !important;
@@ -26,6 +95,65 @@
             .magical {
                 border-top-right-radius: .3rem;
                 border-bottom-right-radius: .3rem;
+            }
+        }
+
+        @media only screen and (max-width: 991px) {
+            /* for ufo animation */
+            @keyframes ufoRotation{
+                0% {
+                    transform: rotate(0deg) translate(1.5rem) rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(-360deg) translate(1.5rem) rotate(360deg);
+                }
+            }
+            @-webkit-keyframes ufoRotation{
+                0% {
+                    transform: rotate(0deg) translate(1.5rem) rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(-360deg) translate(1.5rem) rotate(360deg);
+                }
+            }
+            @-moz-keyframes ufoRotation{
+                0% {
+                    transform: rotate(0deg) translate(1.5rem) rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(-360deg) translate(1.5rem) rotate(360deg);
+                }
+            }
+            @-o-keyframes ufoRotation{
+                0% {
+                    transform: rotate(0deg) translate(1.5rem) rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(-360deg) translate(1.5rem) rotate(360deg);
+                }
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            /* for UFO */
+            #ufoImageContainer {
+                width: 110px;
+                /* position: absolute; */
+                top: 4vh;
+                left: 6vw;
+            }
+        }
+
+        @media only screen and (max-width: 425px) {
+            #ufoImageContainer {
+                width: 90px;
+                /* position: absolute; */
+                top: 0;
+                left: 6vw;
             }
         }
     </style>
@@ -95,5 +223,9 @@
         </div>
     </div>
 </section>
+<!-- flyingUFOContainer -->
+<div id="ufoImageContainer">
+    <img class="ufoImage" src="images/ufo-2.svg">
+</div>
 </body>
 
