@@ -1,4 +1,0 @@
-2) get test harness up & running
-3) get tests complete
-4) test with frontend in GDC make sure everything works
-5) DONE
