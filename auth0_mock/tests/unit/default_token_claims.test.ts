@@ -17,6 +17,5 @@ describe("testing token Defaults", () => {
             "amr"
         ];
         expect(Object.keys(tokenDefaults).every(key => defaultProps.includes(key))).toBeTruthy();
-
     });
 });

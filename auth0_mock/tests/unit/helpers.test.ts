@@ -49,7 +49,6 @@ describe("testing helper functions", () => {
                 error: 'login_required',
                 error_description: 'login_required'
             }
-            // TODO should really check if it is URI formatted params
             expect(typeof v === "string").toBeFalsy();
             v = helpers.buildUriParams(v);
             expect(typeof v === "string").toBeTruthy();
@@ -60,13 +59,6 @@ describe("testing helper functions", () => {
         it("should return a number in base 10", () => {
             expect(helpers.port === parseInt(helpers.port.toString(), 10)).toBeTruthy();
         });
-        // TODO due to top level import this is not currently possible
-
-        //     it("should return app_port env var if set in base 10", () => {
-        //         const APP_PORT: string = "2000";
-        //         process.env.APP_PORT = APP_PORT;
-        //         expect(helpers.port === parseInt(APP_PORT, 10)).toBeTruthy();
-        //     });
     });
 
     describe("testing auth0Url const", () => {

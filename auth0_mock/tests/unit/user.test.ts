@@ -9,9 +9,6 @@ describe("testing user class instance", () => {
         const userList: Record<string, any> = JSON.parse(readFileSync(join("./", "users.json"), 'utf8'));
         expect(userList[username].username === "").toBeFalsy();
         expect(User.getUser(username).username === "").toBeFalsy();
-        // TODO how to check against interface 
-        // expect(User.getUser(username) instanceof IUsers).toBeTruthy();
-        // expect(typeof User.getUser(username) ===  IUsers).toBeTruthy();
     });
 
     it("should return user defaults if user doesn't exist", () => {
