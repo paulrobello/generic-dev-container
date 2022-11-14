@@ -10,6 +10,7 @@
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
     <style>
+
         .magical {
             background: #2986cc;
             background: -webkit-linear-gradient(to right, #020024, #0e0e9d, #00d4ff);
@@ -26,7 +27,7 @@
 
         /* animation is inconsistant on safari */
         /* for ufo animation */
-        .ufoImage{
+        .ufoImage {
             transform: translate3d(0px, 0rem, 0px);
             /* animation: ufoRotation 2.7s linear infinite; */
 
@@ -48,7 +49,7 @@
             width: 100%;
         }
 
-        @keyframes ufoRotation{
+        @keyframes ufoRotation {
             0% {
                 transform: rotate(0deg) translate(3.5rem) rotate(0deg);
             }
@@ -57,7 +58,8 @@
                 transform: rotate(-360deg) translate(3.5rem) rotate(360deg);
             }
         }
-        @-webkit-keyframes ufoRotation{
+
+        @-webkit-keyframes ufoRotation {
             0% {
                 -webkit-transform: rotate(0deg) translate(3.5rem) rotate(0deg);
             }
@@ -66,7 +68,8 @@
                 -webkit-transform: rotate(-360deg) translate(3.5rem) rotate(360deg);
             }
         }
-        @-moz-keyframes ufoRotation{
+
+        @-moz-keyframes ufoRotation {
             0% {
                 -moz-transform: rotate(0deg) translate(3.5rem) rotate(0deg);
             }
@@ -75,7 +78,8 @@
                 -moz-transform: rotate(-360deg) translate(3.5rem) rotate(360deg);
             }
         }
-        @-o-keyframes ufoRotation{
+
+        @-o-keyframes ufoRotation {
             0% {
                 -o-transform: rotate(0deg) translate(3.5rem) rotate(0deg);
             }
@@ -85,22 +89,31 @@
             }
         }
 
-        @media (min-width: 768px) {
-            .magical-form {
-                height: 100vh !important;
-            }
+        button.magical {
+            transform: rotate(30deg);
         }
 
-        @media (min-width: 769px) {
-            .magical {
-                border-top-right-radius: .3rem;
-                border-bottom-right-radius: .3rem;
-            }
+        button.magical:hover {
+            transform: rotate(0deg);
+            transition: 430ms ease all;
+            background: green;
         }
 
         @media only screen and (max-width: 991px) {
+            button.magical {
+                transform: none;
+            }
+
+            button.magical:hover {
+                transform: none;
+            }
+
+            button.magical {
+                width: 50%;
+            }
+
             /* for ufo animation */
-            @keyframes ufoRotation{
+            @keyframes ufoRotation {
                 0% {
                     transform: rotate(0deg) translate(1.5rem) rotate(0deg);
                 }
@@ -109,7 +122,7 @@
                     transform: rotate(-360deg) translate(1.5rem) rotate(360deg);
                 }
             }
-            @-webkit-keyframes ufoRotation{
+            @-webkit-keyframes ufoRotation {
                 0% {
                     transform: rotate(0deg) translate(1.5rem) rotate(0deg);
                 }
@@ -118,7 +131,7 @@
                     transform: rotate(-360deg) translate(1.5rem) rotate(360deg);
                 }
             }
-            @-moz-keyframes ufoRotation{
+            @-moz-keyframes ufoRotation {
                 0% {
                     transform: rotate(0deg) translate(1.5rem) rotate(0deg);
                 }
@@ -127,7 +140,7 @@
                     transform: rotate(-360deg) translate(1.5rem) rotate(360deg);
                 }
             }
-            @-o-keyframes ufoRotation{
+            @-o-keyframes ufoRotation {
                 0% {
                     transform: rotate(0deg) translate(1.5rem) rotate(0deg);
                 }
@@ -139,12 +152,25 @@
         }
 
         @media only screen and (max-width: 768px) {
+            .magical {
+                border-top-right-radius: .3rem;
+                border-bottom-right-radius: .3rem;
+            }
+
+            button.magical {
+                width: 100%;
+            }
+
             /* for UFO */
             #ufoImageContainer {
                 width: 110px;
                 /* position: absolute; */
                 top: 4vh;
                 left: 6vw;
+            }
+
+            .magical-form {
+                height: 100vh !important;
             }
         }
 
