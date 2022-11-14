@@ -120,11 +120,6 @@
             }
         }
 
-        button.magical:hover {
-            background: green;
-            animation: shake 1s infinite;
-        }
-
         @media only screen and (max-width: 991px) {
 
             button.magical {
@@ -281,13 +276,22 @@
     hovTarg.addEventListener("mouseover", function () {
         ufoTarg.style.display = "block";
         jackedBtnTarg.style.animation = "btnRotation infinite 3s linear";
-        jackedBtnTarg.style.backgroundColor = "red";
         magicContainerTarg.style.animation = "btnRotation infinite 4s linear";
     });
     hovTarg.addEventListener("mouseout", function () {
         ufoTarg.style.display = "none";
         jackedBtnTarg.style.animation = "none";
         magicContainerTarg.style.animation = "none";
+    });
+    jackedBtnTarg.addEventListener("mouseover", function () {
+        jackedBtnTarg.style.background = "green";
+        jackedBtnTarg.style.animation = "shake 1s infinite";
+    });
+    jackedBtnTarg.addEventListener("mouseout", function () {
+        jackedBtnTarg.style.background = "#2986cc";
+        jackedBtnTarg.style.background = "-webkit-linear-gradient(to right, #020024, #0e0e9d, #00d4ff)";
+        jackedBtnTarg.style.background = "linear-gradient(to right, #020024, #0e0e9d, #00d4ff)";
+        jackedBtnTarg.style.animation = "none";
     });
 </script>
 </body>
