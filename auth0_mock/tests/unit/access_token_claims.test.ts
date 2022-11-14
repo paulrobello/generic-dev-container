@@ -1,14 +1,20 @@
-import {IAccessTokenClaims} from "../../types";
 import {accessTokenClaims} from "../../token-claims/access";
 import {tokenDefaults} from "../../token-claims/token_defaults";
 
 describe("access token claims tests", () => {
     it("should return IAccessTokenClaims property", () => {
+        const defaultProps: string[] = [
+            "iss",
+            "sub",
+            "aud",
+            "iat",
+            "exp",
+            "azp",
+            "scope",
+            "permissions"
+        ];
         const accessClaims = accessTokenClaims();
-        expect("iss" in accessClaims)
-        // expect(accessClaims.iss === null).toBeFalsy();
-        // expect(Object.keys(IAccessTokenClaims) in accessClaims)
-        // expect(typeof accessClaims === IAccessTokenClaims)
+        expect(defaultProps.every(key => Object.keys(accessClaims).includes(key))).toBeTruthy();
     });
     it("should set azp to what the user sets", () => {
         const azpVal = "yes";
@@ -21,4 +27,3 @@ describe("access token claims tests", () => {
         expect(accessClaims.aud).toEqual(tokenDefaults.aud.concat(audVal));
     });
 });
-// TODO maybe test that type that is returned is IAccessTokenClaims

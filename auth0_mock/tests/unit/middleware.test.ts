@@ -43,13 +43,13 @@ describe("middleware tests", () => {
 
         });
     });
-    // TODO could do some things with mocking console.log but not really needed
-    // describe("rawReqLogger tests", () => {
-    //     it("should console.log things & return nextFunc", () => {
-    //         const request: Request = httpMocks.createRequest();
-    //         const response: Response = httpMocks.createResponse();
-    //
-    //         expect(middleware.rawReqLogger(request, response, nextFunc))
-    //     });
-    // });
+    describe("rawReqLogger tests", () => {
+        it("should console.log things & return nextFunc", async () => {
+            const request: Request = httpMocks.createRequest();
+            const response: Response = httpMocks.createResponse();
+            const logSpy = jest.spyOn(console, 'log');
+            middleware.rawReqLogger(request, response, nextFunc)
+            expect(logSpy).toHaveBeenCalledTimes(8);
+        });
+    });
 });

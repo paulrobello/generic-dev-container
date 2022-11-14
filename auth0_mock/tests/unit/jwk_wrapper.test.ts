@@ -1,6 +1,7 @@
 import fs from "fs";
 import {JwkWrapper} from "../../modules/jwk-wrapper";
 import {sleep} from "../utils";
+import {idTokenClaims} from "../../token-claims/id";
 
 describe("JWKWrapper tests", () => {
     it("should return Nonce when getNonce is called", () => {
@@ -15,11 +16,9 @@ describe("JWKWrapper tests", () => {
             expect(JwkWrapper.getNonce()).toEqual(value);
         });
     });
-    // TODO could be better test
     it("should get IAT (a number) when getIat is called", () => {
         expect(typeof JwkWrapper.getIat() === "number").toBeTruthy();
     });
-    // TODO could be better test
     it("should get exp date (a number) when getExp is called", () => {
         expect(typeof JwkWrapper.getExp() === "number").toBeTruthy();
     });
@@ -35,24 +34,16 @@ describe("JWKWrapper tests", () => {
         // should create file
         expect(fs.existsSync(filePath)).toBeTruthy();
     });
-    // TODO finish | we need to make sure that jwt token is what it is
-    // it("should create a token", async () => {
-    //     const token = await JwkWrapper.createToken(idTokenClaims());
-    //     const isValidJwt = (jwtToken: string): boolean => {
-    //         try {
-    //             if (!assert.isString(jwtToken) || assert.isUndefined(process.version as any)) return false
-    //
-    //             const jwtValidToken: string[] = jwtToken.split('.')
-    //             if (jwtValidToken.length !== 3) return false
-    //
-    //             JSON.parse(Buffer.from(jwtValidToken[0], 'base64').toString())
-    //             JSON.parse(Buffer.from(jwtValidToken[1], 'base64').toString())
-    //             return true
-    //         } catch (e) {
-    //             return false
-    //         }
-    //     }
-    //     expect()
-    // });
-    // TODO nothing really to test with verify?
+    it("should create a token when createToken is called with given claims", async () => {
+        const token = await JwkWrapper.createToken(idTokenClaims());
+        expect(token.toString().split(".").length === 3).toBeTruthy();
+        expect(JwkWrapper.verify(token)).toBeTruthy()
+    });
+    it("should return true if no issues with verifying token when verify is called", async () => {
+        const token = await JwkWrapper.createToken(idTokenClaims());
+        const logSpy = jest.spyOn(console, 'log');
+        expect(JwkWrapper.verify(token)).toBeTruthy()
+        expect(logSpy).toHaveBeenCalled();
+
+    });
 });
