@@ -28,6 +28,7 @@
         /* animation is inconsistant on safari */
         /* for ufo animation */
         .ufoImage {
+            /*display: none;*/
             transform: translate3d(0px, 0rem, 0px);
             /* animation: ufoRotation 2.7s linear infinite; */
 
@@ -89,24 +90,42 @@
             }
         }
 
-        button.magical {
-            transform: rotate(30deg);
+        @keyframes btnRotation {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shake {
+            10%,
+            90% {
+                transform: translate3d(-3px, 0, 0);
+            }
+            20%,
+            80% {
+                transform: translate3d(3px, 0, 0);
+            }
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
         }
 
         button.magical:hover {
-            transform: rotate(0deg);
-            transition: 430ms ease all;
             background: green;
+            animation: shake 1s infinite;
         }
 
         @media only screen and (max-width: 991px) {
-            button.magical {
-                transform: none;
-            }
-
-            button.magical:hover {
-                transform: none;
-            }
 
             button.magical {
                 width: 50%;
@@ -197,7 +216,7 @@
                             <div class="card-body p-md-5 mx-md-4">
 
                                 <div class="text-center">
-                                    <img src="images/img.svg"
+                                    <img id="mainImg" src="images/img.svg"
                                          style="width: 185px;" alt="logo">
                                     <h4 class="mt-1 mb-5 pb-1">Auth0 Mock</h4>
                                 </div>
@@ -224,15 +243,15 @@
                                         <label class="form-label" for="pw">Password</label>
                                     </div>
                                     <div class="text-center pt-1 mb-5 pb-1">
-                                        <button class="btn btn-primary btn-block fa-lg magical mb-3"
-                                                type="submit">Login
+                                        <button class="btn btn-primary btn-block fa-lg magical mb-3 shadow-lg"
+                                                type="submit" id="submitBtn">Login
                                         </button>
                                     </div>
                                 </form>
 
                             </div>
                         </div>
-                        <div class="d-none d-sm-block col-lg-6 d-flex align-items-center magical">
+                        <div class="d-none d-sm-block col-lg-6 d-flex align-items-center magical" id="magicContainer">
                             <div class="position-relative top-50 start-50 translate-middle text-white px-3 py-4 p-md-5 mx-md-4">
                                 <h3 class="mb-4">It's more than just a mock. It's a mocking lifestyle</h3>
                                 <p class="large font-weight-bold">Users are defined within
@@ -253,5 +272,23 @@
 <div id="ufoImageContainer">
     <img class="ufoImage" src="images/ufo-2.svg">
 </div>
+<script>
+    const hovTarg = document.getElementById("mainImg");
+    const ufoTarg = document.getElementById("ufoImageContainer");
+    const jackedBtnTarg = document.getElementById("submitBtn");
+    const magicContainerTarg = document.getElementById("magicContainer");
+    ufoTarg.style.display = "none";
+    hovTarg.addEventListener("mouseover", function () {
+        ufoTarg.style.display = "block";
+        jackedBtnTarg.style.animation = "btnRotation infinite 3s linear";
+        jackedBtnTarg.style.backgroundColor = "red";
+        magicContainerTarg.style.animation = "btnRotation infinite 4s linear";
+    });
+    hovTarg.addEventListener("mouseout", function () {
+        ufoTarg.style.display = "none";
+        jackedBtnTarg.style.animation = "none";
+        magicContainerTarg.style.animation = "none";
+    });
+</script>
 </body>
 
