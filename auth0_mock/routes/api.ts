@@ -56,10 +56,11 @@ routerApi.post('/oauth/token', checkLogin, async (req: Request, res: Response) =
 
 // Used to verify token
 routerApi.get('/verify_token_test', checkLogin, async (req: Request, res: Response) => {
-    await JwkWrapper.verify(
+    const resp: boolean = await JwkWrapper.verify(
         await JwkWrapper.createToken(removeNonceIfEmpty(idTokenClaims()))
     );
-    res.status(200).send('done - see logs for details');
+    const msg: string = resp ? "token verified - ": "token verification failed";
+    res.status(200).send(`${msg} - see logs for details`);
 });
 
 // Used to get userinfo
