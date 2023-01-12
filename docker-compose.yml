@@ -90,7 +90,7 @@ services:
       - STARTUP_MSG # message to display after startup
       - CLIPBOARD_MSG # used internally to show message about launch command copied to clipboard
       - COMPOSE_BIN # used to toggle between docker-compose and docker compose invocations
-      - DEV_CONTAINER=1.6.5 # used to detect if running inside dev container
+      - DEV_CONTAINER=1.6.6 # used to detect if running inside dev container
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # allow container to interact with host docker
       - "${GDC_DIR}:/root/gdc-host" # mount gdc folder inside container to get access to compose files
