@@ -24,6 +24,7 @@ services:
         - DOCKER_VERSION # install docker version inside container
         - DOCKER_COMPOSE_VERSION # install docker-compose version inside container
         - EXTRA_PACKAGES # any extra Ubuntu packages you want installed into the base container
+        - AWS_VERSION # install AWS CLI version
     environment:
       - COMPOSE_PROJECT_NAME
       - PROJECT_NAME=${COMPOSE_PROJECT_NAME}
@@ -89,7 +90,7 @@ services:
       - STARTUP_MSG # message to display after startup
       - CLIPBOARD_MSG # used internally to show message about launch command copied to clipboard
       - COMPOSE_BIN # used to toggle between docker-compose and docker compose invocations
-      - DEV_CONTAINER=1.6.4 # used to detect if running inside dev container
+      - DEV_CONTAINER=1.6.5 # used to detect if running inside dev container
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # allow container to interact with host docker
       - "${GDC_DIR}:/root/gdc-host" # mount gdc folder inside container to get access to compose files
